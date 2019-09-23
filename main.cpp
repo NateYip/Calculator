@@ -59,7 +59,7 @@ void add1()
     {
         for(int j=1;j<=a[1].wid;j++)
         {
-            printf ("%-8.2f",a[1].in[i][j]*a[2].in[i][j]);
+            printf ("%-8.2f",a[1].in[i][j]+a[2].in[i][j]);
             cout <<' ';
             
         }
