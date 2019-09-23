@@ -131,11 +131,9 @@ int main()
     cout<<"请输入计算方式，矩阵与矩阵相加请输入“1”，矩阵与实数相乘请输入“2”，矩阵与矩阵相乘请输入“3”："<<endl;
     cin>>how;
     
-    if (how == 1)
-        add1;
-    else if (how == 2)
-        mul1;
-    else mul2;
+    if (how==1) add1();
+    else if (how==2) mul1();
+    else mul2();
     
     
     /*
