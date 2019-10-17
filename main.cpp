@@ -8,7 +8,9 @@
  这个程序是用来计算矩阵的
  */
 #include <iostream>
+#include<cstring>
 #include<algorithm>
+#include<stdio.h>
 using namespace std;
 struct juzhen{
     int len,wid;//wid= 行，len= 列；
@@ -16,7 +18,91 @@ struct juzhen{
 };//这是一个矩阵；
 
 float ans;//全局定义 mul2 中的数据
-struct juzhen a[8];//全局定义矩阵
+struct juzhen a[8],b[8];//全局定义矩阵
+
+
+
+void sssz()//实数四则运算；
+{
+    cout<<"请输入:";
+    char sschuan[44],yun[44];
+    int bian=0;
+    int ssn=0,nub=1,nuy=1;
+    float i=1;
+    float sssj[44]={0};
+    cin>>sschuan;
+    int len=strlen(sschuan);
+    while(len>=ssn)
+    {
+        //if (sschuan[ssn] =='\n')  break;
+         if(sschuan[ssn]=='*')
+        {
+            i=1;
+            bian=0;
+            nub++;
+            yun[nuy]='*';
+            nuy++;
+        }
+        else if(sschuan[ssn]=='/')
+        {
+            i=1;
+            bian=0;
+            nub++;
+            yun[nuy]='/';
+            nuy++;
+        }
+        else if(sschuan[ssn]=='+')
+        {
+            i=1;
+            bian=0;
+            nub++;
+            yun[nuy]='+';
+            nuy++;
+        }
+        else if(sschuan[ssn]=='-')
+        {
+            i=1;
+            bian=0;
+            nub++;
+            yun[nuy]='-';
+            nuy++;
+        }
+        else
+        {
+               
+            if((int(sschuan[ssn]))==46)
+            {
+                bian=1;
+                i=0.1;
+            }
+               
+            if (bian==1 && (int(sschuan[ssn]))!=46)
+            {
+                sssj[nub]=sssj[nub]+(int(sschuan[ssn]))*i;
+                i/=10;
+            }
+            else if(bian==0)
+            {
+                sssj[nub]=sssj[nub]*i+(int(sschuan[ssn]));
+                i*=10;
+            }
+        }
+        ssn++;
+    }
+    float sum=sssj[1];
+    int e=2;
+    
+    for(int w=1;w<=nuy;w++)
+    {
+        
+        if(yun[w]=='+')   sum+=sssj[e];
+        else if(yun[w]=='-')   sum-=sssj[e];
+            else if(yun[w]=='*')   sum*=sssj[e];
+               else if(yun[w]=='/')   sum/=sssj[e];
+        e++;
+    }
+    cout<<sum<<endl;
+}
 
 void input_a()//手动输入数据
 {
@@ -115,36 +201,56 @@ void mul2()
    
 }
 
-int main()
+void change_1()
+{
+    
+    for(int i=1;i<=a[1].wid;i++)
+    {
+        for(int j=1;j<=a[1].len;j++)
+        {
+            b[1].in[j][i]=a[1].in[i][j];
+        }
+    }
+    for(int i=1;i<=a[1].wid;i++)
+    {
+        for(int j=1;j<=a[1].len;j++)
+        {
+            cout<<b[1].in[i][j]<<' ';
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+}
+void jzys()
 {
     char way;//这个值用来记录输入数据的方式
     char how;//这个值用来记录计算类型
-    
-    cout<<"本程序是用来计算矩阵运算的，目前单个矩阵最大5*5，最多录入两个矩阵,计算结果精确度在小数点后两位。"<<endl;
+    cout<<"本程序是用来计算矩阵运算的，"<<endl;
+    cout<<"目前单个矩阵最大5*5，最多录入两个矩阵,计算结果精确度在小数点后两位。"<<endl;
     cout<<"<!!!caution!!!：目前读取文件的数据的方式还在搭建,乘法也在调试>"<<endl;
     cout <<"是否有需要手动输入文件(请输入y或n）【y=yes/n=no】:";
     cin>>way;
-   /*
-    if (way == 'y')
-        input_a();
-    else input_b();
+    /*
+     if (way == 'y')
+     input_a();
+     else input_b();
+     
+     cout<<"请输入计算方式，矩阵与矩阵相加请输入“1”，矩阵与实数相乘请输入“2”，矩阵与矩阵相乘请输入“3”："<<endl;
+     cin>>how;
+     
+     if (how==1) add1();
+     else if (how==2) mul1();
+     else mul2();
+     */
     
-    cout<<"请输入计算方式，矩阵与矩阵相加请输入“1”，矩阵与实数相乘请输入“2”，矩阵与矩阵相乘请输入“3”："<<endl;
-    cin>>how;
     
-    if (how==1) add1();
-    else if (how==2) mul1();
-    else mul2();
-    */
-    
-
-     switch (way)
+    switch (way)
     {
         case 'y':input_a();break;
         case 'n':input_b();break;//通过文件读取不能用
     }
     
-    cout<<"请输入计算方式，矩阵与矩阵相加请输入“1”，矩阵与实数相乘请输入“2”，矩阵与矩阵相乘请输入“3”：";
+    cout<<"请输入计算方式，矩阵与矩阵相加请输入“1”，矩阵与实数相乘请输入“2”，矩阵与矩阵相乘请输入“3”，矩阵转制请按“4”：";
     cin>>how;
     
     switch (how)
@@ -152,9 +258,29 @@ int main()
         case '1':add1();break;
         case '2':mul1();break;
         case '3':mul2();break;
+        case '4':change_1();break;
     }
+}
 
+int main()
+{
+    char jixu='y';
+    while(jixu=='y')
+    {
+    char whichto;//记录运算的区别（实数四则运算还是矩阵）；
+    cout<<"实数的四则运算请键入：s,矩阵运算请键入：j"<<endl;
+    cout<<"请输入：";
+    cin>>whichto;
+    switch(whichto)
+    {
+        case 's':sssz();break;
+        case 'j':jzys();break;
+    }
     
+    cout<<"请问需要继续运算么？(y=yes,no=n)";
+    cin>>jixu;
+
+    }
     cout <<"感谢使用"<<endl;
     return 0;
 }
